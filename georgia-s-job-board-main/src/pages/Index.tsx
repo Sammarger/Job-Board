@@ -8,7 +8,7 @@ const Index = () => {
           Georgia's Job List
         </h1>
         <p className="text-lg text-muted-foreground max-w-md mx-auto leading-relaxed">
-          Get handpicked job opportunities delivered to your inbox. Choose your roles and locations, and never miss a match.
+          Georgia Bullens cureated job list.
         </p>
       </div>
       <SignupForm />
