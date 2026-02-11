@@ -33,8 +33,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             {
               fields: {
                 Email: email,
-                Roles: roles.join(", "),
-                Locations: locations.join(", "),
+                // Airtable multi-select fields expect an array of option names
+                "Positions": roles,
+                "Locations": locations,
               },
             },
           ],
