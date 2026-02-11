@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-const AIRTABLE_BASE_ID = "yNPb4VK9PumxF6";
-const AIRTABLE_TABLE_ID = "Sx3Zt0lrKjZEgf";
+const AIRTABLE_BASE_ID = "appyNPb4VK9PumxF6";
+const AIRTABLE_TABLE_ID = "tblSx3Zt0lrKjZEgf";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
