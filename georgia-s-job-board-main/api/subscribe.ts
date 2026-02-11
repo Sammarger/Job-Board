@@ -3,6 +3,34 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 const AIRTABLE_BASE_ID = "appyNPb4VK9PumxF6";
 const AIRTABLE_TABLE_ID = "tblSx3Zt0lrKjZEgf";
 
+// Map clean labels from the UI to Airtable's exact multi-select option strings
+const AIRTABLE_POSITIONS_MAP: Record<string, string> = {
+  "Leadership & Executive": " Leadership & Executive",
+  "Policy, Government & Public Affairs": "Policy, Government & Public Affairs",
+  "Data, AI & Tech": "Data, AI & Tech",
+  "Research, Academia & Fellowships": "Research, Academia & Fellowships",
+  "Product, Design & UX": " Product, Design & UX",
+  "Communications, Media & Marketing": "Communications, Media & Marketing",
+  "Operators, Program & Project Management":
+    " Operators, Program & Project Management",
+  "Philanthropy, Fundraising & Impact Investing":
+    "Philanthropy, Fundraising & Impact Investing",
+  "Publishing, Journalism & Content": "Publishing, Journalism & Content",
+  "Education, Training & Early Career Programs":
+    "Education, Training & Early Career Programs",
+};
+
+const AIRTABLE_LOCATIONS_MAP: Record<string, string> = {
+  "US - Northeast": "US - Northeast",
+  "US - Midwest": "US - Midwest",
+  "US - Mid Atlantic / DC Area": " US - Mid Atlantic / DC Area",
+  Remote: "Remote",
+  "US - West Coast": " US - West Coast",
+  "UK & Ireland": "UK & Ireland",
+  "Western / Central Europe": "Western / Central Europe",
+  "Asia-Pacific": " Asia-Pacific",
+};
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -33,9 +61,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             {
               fields: {
                 Email: email,
-                // Airtable multi-select fields expect an array of option names
-                "Positions": roles,
-                "Locations": locations,
+                // Map to Airtable's exact multi-select option strings (including leading spaces)
+                Positions: roles.map(
+                  (role) => AIRTABLE_POSITIONS_MAP[role] ?? role
+                ),
+                Locations: locations.map(
+                  (loc) => AIRTABLE_LOCATIONS_MAP[loc] ?? loc
+                ),
               },
             },
           ],
