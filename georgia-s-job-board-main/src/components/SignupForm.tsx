@@ -55,7 +55,7 @@ const SignupForm = () => {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !email.includes("@")) {
@@ -71,8 +71,30 @@ const SignupForm = () => {
       return;
     }
 
-    setSubmitted(true);
-    toast.success("You're on the list!");
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          roles: selectedRoles,
+          locations: selectedLocations,
+        }),
+      });
+
+      if (!response.ok) {
+        toast.error("There was a problem saving your signup. Please try again.");
+        return;
+      }
+
+      setSubmitted(true);
+      toast.success("You're on the list!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Network error. Please try again.");
+    }
   };
 
   if (submitted) {
