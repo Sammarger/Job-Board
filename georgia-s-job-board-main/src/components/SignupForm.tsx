@@ -37,6 +37,12 @@ const LOCATIONS = [
   "Asia-Pacific",
 ];
 
+const isValidEmail = (value: string) => {
+  const email = value.trim();
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+};
+
 const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
@@ -58,7 +64,7 @@ const SignupForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !email.includes("@")) {
+    if (!isValidEmail(email)) {
       toast.error("Please enter a valid email address.");
       return;
     }
